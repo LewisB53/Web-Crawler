@@ -1,0 +1,25 @@
+
+body {
+
+  text-align: center;
+
+  background: rgba(3, 55, 244, 0.41);
+
+  font-family: helvetica;
+
+
+
+},
+
+
+
+div {
+
+      height: 200px;
+
+      width: 50%;
+
+      background-color: green;
+
+}
+

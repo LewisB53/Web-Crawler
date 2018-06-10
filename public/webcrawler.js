@@ -1,9 +1,12 @@
-    var resultsPage = function(){
+	var resultsPage = function(){
+	
+	var domainName = "http://wiprodigital.com"
+    var domainInfo = document.createElement('p');
 
-    var textBox = document.createElement('p')
-
-    document.body.appendChild(textBox)
-    textBox.innerText = "Inserted Text"
+	document.body.appendChild(domainInfo);
+    domainInfo.innerText = "Domain to search " + domainName;
 
 	}
-    window.addEventListener('load', resultsPage);
+
+    window.onload = resultsPage;
+

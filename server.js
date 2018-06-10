@@ -25,7 +25,6 @@ var pagesVisited = {};
 var numPagesVisited = 0;
 var pagesToVisit = [];
 var url = new URL(domainName);
-var baseUrl = url.protocol + "//" + url.hostname;
 
 pagesToVisit.push(domainName);
 crawl();
@@ -52,7 +51,8 @@ function visitPage(url, callback) {
 	   if(response.statusCode === 200) {
 	   		var $ = cheerio.load(body);
 			console.log("Status OK" + response.statusCode);
-			collectInternalLinks($)
+			collectInternalLinks($);
+			collectImages($);
 	   }
 	});
 }
@@ -67,7 +67,24 @@ function collectInternalLinks($) {
       allLinks.push($(this).attr('href'));
   });
 
-  console.log("Found " + allLinks.length + " absolute links");
+  console.log("Found " + allLinks.length + " links");
   console.log(allLinks);
 }
+
+
+
+
+function collectImages($) {
+  var allImages = [];
+
+  var images = $("img");
+  images.each(function() {
+      allImages.push($(this).attr('src'));
+  });
+
+  console.log("Found " + allImages.length + " Images");
+  console.log(allImages);
+}
+
+
 });

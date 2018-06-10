@@ -21,39 +21,53 @@ console.log('Example app listening at http://%s:%s', host, port);
 // Function to make connection and report errors
 var domainName = "http://wiprodigital.com"
 
-request(domainName, function(error, response, body) {
-   if(error) {
-    	console.log("Error: " + error);
-   }
-   // Check status code (200 is HTTP OK)
-   console.log("Status code: " + response.statusCode);
+var pagesVisited = {};
+var numPagesVisited = 0;
+var pagesToVisit = [];
+var url = new URL(domainName);
+var baseUrl = url.protocol + "//" + url.hostname;
 
-   if(response.statusCode === 200) {
-   		var $ = cheerio.load(body);
-		console.log("Status OK");
-		collectInternalLinks($)
-   }
-});
+pagesToVisit.push(domainName);
+crawl();
 
 
-//Function to collect internal links
+
+function crawl() {
+  var nextPage = pagesToVisit.pop();
+  if (nextPage in pagesVisited) {
+    crawl();
+  } else {
+    visitPage(nextPage, crawl);
+  }
+}
+
+
+
+function visitPage(url, callback) {
+	request(domainName, function(error, response, body) {
+	   if(error) {
+	    	console.log("Error: " + error);
+	   }
+
+	   if(response.statusCode === 200) {
+	   		var $ = cheerio.load(body);
+			console.log("Status OK" + response.statusCode);
+			collectInternalLinks($)
+	   }
+	});
+}
+
+
 
 function collectInternalLinks($) {
-  var allRelativeLinks = [];
-  var allAbsoluteLinks = [];
+  var allLinks = [];
 
-  var relativeLinks = $("a[href^='/']");
-  relativeLinks.each(function() {
-      allRelativeLinks.push($(this).attr('href'));
-
+  var links = $("a[href^='http']");
+  links.each(function() {
+      allLinks.push($(this).attr('href'));
   });
 
-  var absoluteLinks = $("a[href^='http']");
-  absoluteLinks.each(function() {
-      allAbsoluteLinks.push($(this).attr('href'));
-  });
-
-  console.log("Found " + allRelativeLinks.length + " relative links");
-  console.log("Found " + allAbsoluteLinks.length + " absolute links");
+  console.log("Found " + allLinks.length + " absolute links");
+  console.log(allLinks);
 }
 });

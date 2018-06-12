@@ -1,18 +1,20 @@
 {
   "name": "webcrawler",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple Web crawler app to search for links within a single domain",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "url-parse": "^1.0.5",
-    "request": "^2.65.0",
     "cheerio": "^0.19.0",
-    "express": "^4.14.0"
-  }
+    "request": "^2.65.0",
+    "url-parse": "^1.0.5"
+  },
+  "devDependencies": {
+  },
+  "keywords": []
 }
